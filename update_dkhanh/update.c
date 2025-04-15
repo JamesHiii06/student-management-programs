@@ -1,6 +1,6 @@
 #include "students.h"
 #include "Searching.h"
-#include "update.h"
+#include "updateAndStatus.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -13,11 +13,8 @@ void update(profile *s)
     char targetMSSV[20], targetNAME[100];
 
     // nhap mssv va ten de chinh sua
-    fgets(targetMSSV, 20, stdin);
-    targetMSSV[strcspn(targetMSSV, "\n")] = '\0';
-
-    fgets(targetNAME, 100, stdin);
-    targetNAME[strcspn(targetNAME, "\n")] = '\0';
+    input_string(targetMSSV, sizeof(targetMSSV));
+    input_string(targetNAME, sizeof(targetNAME));
 
     //tim kiem sinh vien
     searching(s, targetMSSV, targetNAME);
@@ -58,7 +55,7 @@ void update(profile *s)
             input_float(&s[i].eng);
 
             // tinh diem trung binh
-            s[i].aver = (s[i].math + s[i].lit + s[i].eng) / 3.0;
+            s[i].aver = average(s, s[i].MSSV);
             break;
         }
     }
