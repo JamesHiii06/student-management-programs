@@ -2,4 +2,6 @@
 #include "students.h"
 
 void update(profile *s);
-void average();
+int average(profile *s, int ID);
+void status(profile *s, int ID);
+
