@@ -1,70 +1,39 @@
 #include "students.h"
-#include "Searching.h"
 #include "updateAndStatus.h"
 #include <stdio.h>
 #include <string.h>
 
 void input_string(char *str, int size);
 void input_float(float *value);
-void printNewData(profile *s,long ID);
+void saveNewData(profile *s);
 
-void update(profile *s)
+void update(profile *s, int ID)
 {
-    char targetMSSV[20], targetNAME[100];
+    // nhap thong tin moi 
+    input_string(s[ID].MSSV, sizeof(s[ID].MSSV));
 
-    // nhap mssv va ten de chinh sua
-    input_string(targetMSSV, sizeof(targetMSSV));
-    input_string(targetNAME, sizeof(targetNAME));
+    input_string(s[ID].NAME, sizeof(s[ID].NAME));
 
-    //tim kiem sinh vien
-    searching(s, targetMSSV, targetNAME);
-    int found = 0;
+    input_string(s[ID].DATE, sizeof(s[ID].DATE));
 
-    for (int i = 0; i < 500000; i++) 
-    {
-        if (strcmp(s[i].MSSV, targetMSSV) == 0)
-        {
-            found = 1;
-            // nhap thong tin moi 
-            printf("\nNhập MSSV: ");
-            input_string(s[i].MSSV, sizeof(s[i].MSSV));
+    input_string(s[ID].NUM, sizeof(s[ID].NUM));
 
-            printf("\nNhập tên sinh viên: ");
-            input_string(s[i].NAME, sizeof(s[i].NAME));
+    input_string(s[ID].ADD, sizeof(s[ID].ADD));
 
-            printf("\nNhập ngày sinh: ");
-            input_string(s[i].DATE, sizeof(s[i].DATE));
+    input_string(s[ID].CLASS, sizeof(s[ID].CLASS));
 
-            printf("\nNhập số điện thoại: ");
-            input_string(s[i].NUM, sizeof(s[i].NUM));
+    // nhap diem so moi
+    input_float(&s[ID].math);
 
-            printf("\nNhập địa chỉ: ");
-            input_string(s[i].ADD, sizeof(s[i].ADD));
+    input_float(&s[ID].lit);
 
-            printf("\nNhập lớp học: ");
-            input_string(s[i].CLASS, sizeof(s[i].CLASS));
+    input_float(&s[ID].eng);
 
-            // nhap diem so moi
-            printf("\nNhập điểm môn toán: ");
-            input_float(&s[i].math);
+    // tinh diem trung binh
+    s[ID].aver = average(s, s[ID].MSSV);
 
-            printf("\nNhập điểm môn văn: ");
-            input_float(&s[i].lit);
 
-            printf("\nNhập điểm môn tiếng Anh: ");
-            input_float(&s[i].eng);
-
-            // tinh diem trung binh
-            s[i].aver = average(s, s[i].MSSV);
-            break;
-        }
-    }
-    if (found = 0)
-    {
-        printf("\nKhông tìm thấy sinh viên");
-    }
-
-    saveNewData(s);
+    saveNewAllData(s);
 }
 
 void input_string(char *str, int size) 
@@ -96,16 +65,16 @@ void saveNewData(profile *s)
     fclose(f);
 
     if (remove("students.txt") != 0) {
-        printf("\nKhông thể xóa students.txt");
+        printf("\nERROR");
         return;
     }
 
     if (rename("temp.txt", "students.txt") != 0) {
-        printf("\nKhông thể đổi tên temp.txt thành students.txt\n");
+        printf("\nERROR\n");
         return;
     }
 
-    printf("\nDữ liệu đã được cập nhật vào students.txt thành công.\n");
+    printf("\nDữ liệu đã được cập nhật thành công\n");
 }
 
 

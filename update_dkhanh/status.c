@@ -6,3 +6,5 @@ int averageScore(profile *s, int ID)
     return s[ID].aver;
 }
 
+
+
